@@ -1,12 +1,17 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'MARKS', defaultValue: '', description: 'Comma separated list of marks')
+    }
+
     stages {
-        stage('Display Time') {
+        stage('Evaluate Marks') {
             steps {
                 script {
-                    def currentTime = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone('UTC'))
-                    echo "Current Time (UTC): ${currentTime}"
+                    def marks = params.MARKS.split(',').collect { it.trim().toInteger() }
+                    def result = marks.any { it < 40 } ? 'Failed' : 'Passed'
+                    echo "Result: ${result}"
                 }
             }
         }
