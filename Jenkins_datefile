@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Display Time') {
+            steps {
+                script {
+                    def currentTime = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone('UTC'))
+                    echo "Current Time (UTC): ${currentTime}"
+                }
+            }
+        }
+    }
+}
